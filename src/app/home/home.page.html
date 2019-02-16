@@ -1,12 +1,15 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Ionic Blank
+      Ionic FireTodos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding>
-  The world is your oyster.
-  <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
+  <ion-list>
+    <ion-item class="text" *ngFor="let task of tasks" [routerLink]="['/task', task.id]">
+      {{task | json}}
+    </ion-item>
+  </ion-list>
 </ion-content>
