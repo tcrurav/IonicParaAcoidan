@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AngularFireDatabase } from '@angular/fire/database';
 
 @Component({
   selector: 'app-task',
@@ -9,14 +10,22 @@ import { ActivatedRoute } from '@angular/router';
 export class TaskPage implements OnInit {
   task: any;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private afDB: AngularFireDatabase) { }
 
   ngOnInit() {
-    this.task = this.route.snapshot.params['task'];
-    console.log(this.task);
-    if (this.task)  {
-      console.log(this.task);
+    let taskId = this.route.snapshot.params['id'];
+
+    if (taskId) {
+      this.getTaskDetails(taskId);
     }
+  }
+
+  getTaskDetails(taskId: any): any {
+    this.afDB.object("tasks/" + taskId)
+      .snapshotChanges().subscribe(res => {
+        this.task = res.payload.val();
+        console.log(this.task);
+      });
   }
 
 }
